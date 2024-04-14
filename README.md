@@ -1,14 +1,41 @@
+## Languages / Tech stacks
+I built both Golang project and Node.js project
+./go     Go project (main.go)
+./js    Node project (index.js)
 
-## Objective
-In July 2022, insurance carriers were required to publish their negotiated prices with all providers and facilities under the Transparency in Coverage Act. 
-Pricing for every procedure code for every provider in the country is a lot of data; thus, the published files are extremely large and require some forethought and skill to be able to work with them. 
+## How to run
+# Go
+1) Make sure you have installed go lastest version.
+2) cd ./go
+3) go run main.go
+4) the output would be go_output.txt 
+# JavaScript
+1) Make sure you have already installed node v>20
+2) cd ./js
+3) npm run start
+4) the output would be node_output.txt
 
-Our customers typically want to know and compare reimbursement rates for healthcare services from specific carriers. E.g., what does Anthem reimburse orthopedic surgeons in New York state for total knee replacement surgery? To get there, we need to go to Anthem's Transparency in Coverage website, find their appropriate index file (also called a table of contents file), look up the MRF file URLs in the index for the correct plan, pull the MRF, extract the data, and we have our answer. The challenge for us is that carriers don't always follow the schemas, so these postings and indexes aren't always easy to decipher - it takes some sleuthing and creativity to get to the answers we seek. 
+## description
+1) HTTP Request and Decompression:
+The program starts by making an HTTP GET request to retrieve the gzip-compressed JSON file from a specified URL.
+It then creates a gzip decompressor to read and decompress the data stream.
+Regular Expressions:
 
-For this interview, we'll give you an index file URL and we'll skip in-network MRF processing for now, since the data elements in the in-network file are significantly more complex and variant. 
+2) Regular expressions are used to identify and extract JSON objects within each line of the data stream.
+One regular expression (jsonObjectRegex) is used to match and extract individual JSON objects from the data stream.
+Another regular expression (newYorkRegex) is employed to identify descriptions containing mentions of New York.
+Data Processing Loop:
 
-Your task is to write some code that can open an index file, stream through it, and isolate a set of network files in the index. We'd simply like to know, *what is the list of machine readable file URLs that represent the Anthem PPO network in New York state*? 
+3) The program reads the decompressed data stream line by line.
+For each line, it extracts JSON objects using the defined regular expressions.
+It then parses each JSON object to extract the description and location fields.
 
+4) Conditional Filtering and Output:
+If a description contains a mention of New York and includes the term "PPO," the corresponding location is written to an output file (go_output.txt).
+The program also keeps track of the total number of matching URLs processed and prints progress updates every 1000 URLs.
+
+5) Time Tracking:
+The program records the start and end times to measure the total execution time.
 
 ## Inputs
 The input to this takehome is the Anthem machine readable index file
@@ -23,7 +50,7 @@ Your output should be the list of machine readable file URLs corresponding to An
 As you start working with the index, you'll quickly notice that the index file itself is extremly large, data is very frequently repeated, plan descriptions seem to contain random businesses in various regions around the country, and that there are a handful of different url styles. 
 
 - How do you handle the file size and format efficiently, when the uncompressed file will exceed memory limitations on most systems? 
-
+In this case, I used buffer stream for large file manage
 - When you look at your output URL list, which segments of the URL are changing, which segments are repeating, and what might that mean?
 
 - Is the 'description' field helpful? Is it complete? Does it change relative to 'location'? Is Highmark the same as Anthem?
