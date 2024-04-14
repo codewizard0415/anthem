@@ -4,14 +4,14 @@ I built both Golang project and Node.js project
 ./js    Node project (index.js)
 
 ## How to run
-# Go
+### Go
 1) Make sure you have installed go lastest version.
 2) cd ./go
 3) go run main.go
 4) the output would be go_output.txt 
-# JavaScript
+### JavaScript
 1) Make sure you have already installed node v>20
-2) cd ./js
+2) cd ./js    npm install
 3) npm run start
 4) the output would be node_output.txt
 
